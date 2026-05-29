@@ -14,7 +14,7 @@ The mechanism is the standard's `ctx_token`: an opaque click-token the agent iss
 
 ## Why a separate profile
 
-The standard is permissive and value-neutral; this profile adds commerce-specific requirements on top. The dependency runs one way - profile to standard, never the reverse - so the standard can move to a neutral standards body without disturbing this profile, which simply updates its version reference. The profile names no operator and no hosted endpoint: a competing operator can implement and be assessed against it with no dependency on any single operator's infrastructure.
+The standard is permissive and value-neutral; this profile adds commerce-specific requirements on top. The dependency runs one way - profile to standard, never the reverse - so the profile can change its requirements, and other communities can profile the same standard, without touching the wire format. The profile names no operator and no hosted endpoint: a competing operator can implement and be assessed against it with no dependency on any single operator's infrastructure.
 
 ## What's in this directory
 
