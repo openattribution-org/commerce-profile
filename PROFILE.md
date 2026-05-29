@@ -124,7 +124,7 @@ The dependency runs one way - profile to standard, never the reverse. The standa
 
 ## 5. Requirements
 
-An implementer assessed as OpenAttribution Commerce Compliant MUST meet every requirement below that applies to it: an emitter against sections 5.1 through 5.4 and 5.5, an attribution consumer against section 5.7. Multi-citation attribution (section 5.6) is the requirement that distinguishes this profile.
+An implementer assessed as OpenAttribution Commerce Compliant MUST meet every requirement below that applies to its role: an emitter against sections 5.1 to 5.5; a party that performs attribution on click-outs against section 5.6; an attribution consumer against section 5.7. Multi-citation attribution (section 5.6) is the requirement that distinguishes this profile.
 
 ### 5.1 Conformance to the standard
 
@@ -168,7 +168,7 @@ The manifest reflects only what privacy and consent permit (section 5.7.2). Sour
 
 ### 5.7 Attribution consumer requirements
 
-Sections 5.1 through 5.6 govern emitters and the parties that perform attribution on received events. An attribution consumer - a party that receives telemetry and resolves `ctx_token`s to click manifests (standard, section 7.3 and section 7.1) - is assessed against the requirements below. The multi-citation requirement in section 5.6 relies on them.
+Sections 5.1 to 5.5 govern emitters; section 5.6 governs any party that performs attribution on received events. An attribution consumer - a party that receives telemetry and resolves `ctx_token`s to click manifests (standard, section 7.3 and section 7.1) - is assessed against the requirements below. The multi-citation requirement in section 5.6 relies on them.
 
 #### 5.7.1 Conformance to the standard
 
@@ -193,7 +193,7 @@ Aggregate or anonymised reporting across a catalogue - benchmarks that do not re
 
 ## 6. Conformance assessment
 
-An implementer is assessed as OpenAttribution Commerce Compliant when it meets every requirement in section 5 that applies to it: an emitter against sections 5.1 through 5.6, an attribution consumer against section 5.7. Assessment has two parts:
+An implementer is assessed as OpenAttribution Commerce Compliant when it meets every requirement in section 5 that applies to its role: an emitter against sections 5.1 to 5.5, a party that performs attribution on click-outs against section 5.6, an attribution consumer against section 5.7. Assessment has two parts:
 
 1. **Technical conformance** - verified against the standard's reference test suite, for the conformance level an emitter advertises (5.1) or against the standard's attribution-consumer rules for a consumer (5.7.1), plus the commerce-specific document checks in the [`accreditation/`](./accreditation/) suite: a cross-boundary `link_click` engagement carries a `ctx_token` and not a raw `session_id` (5.5), and a conforming commerce flow records the grounded, cited, and displayed sources that make a click manifest possible (5.6). An objective, repeatable check.
 2. **Operational requirements** - event-level granularity and real-time delivery (5.2, 5.3), `ctx_token` resolution to a privacy- and consent-gated click manifest (5.7.2), multi-citation crediting of the manifest (5.6), and content-owner resolution and isolation (5.7.3), verified by inspection of the implementer's pipeline and by attestation.
