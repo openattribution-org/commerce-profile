@@ -114,6 +114,8 @@ crediting every source in the click manifest for a click-out, rather than only t
 
 The standard defines the wire format. This profile selects from it and adds requirements specific to commerce.
 
+This profile uses the standard's three economic actors (standard, section 4.1 Roles): the **content owner** (the editorial source whose reviews, guides, and recommendations shape the response), the **intermediary** (the marketplace, affiliate or ad network, or attribution vendor that observes flows and resolves attribution), and the **agent** (the AI shopping assistant). A **destination** or **brand** in this profile is a content owner of its own landing content; where it also operates a network or marketplace it is additionally an intermediary, and the requirements that attach to each role apply to it in each capacity. As in the standard, *emitter* and *attribution consumer* are functions, not actors: an affiliate network is an intermediary that is typically both.
+
 The standard defines three conformance levels - Retrieval, Grounding, and Attribution (standard, section 5.7) - a privacy mechanism with four levels (standard, section 5.5), the `ctx_token` click-out mechanism and its resolution (standard, section 7.1). The standard makes none of these mandatory for any relationship.
 
 This profile builds on the standard's mechanisms without changing them. An implementer that meets this profile's requirements is, by construction, conforming to the standard. An implementer can conform to the standard without engaging with this profile at all.
