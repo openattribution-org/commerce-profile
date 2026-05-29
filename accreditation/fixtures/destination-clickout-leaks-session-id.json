@@ -1,0 +1,14 @@
+{
+  "_test_description": "Non-conforming destination-side report: the click-out carries the raw session_id across the agent-to-landing-page boundary instead of an opaque ctx_token, leaking the session UUID to the destination. Violates the ctx_token propagation requirement (5.5), which forbids carrying raw session_id across the boundary.",
+  "_test_expected_tier": null,
+  "_test_expected_reason": "MUST NOT carry raw 'session_id'",
+  "document_type": "event",
+  "schema_version": "0.1",
+  "session_id": "c0ffee00-0001-4a00-8000-000000000001",
+  "event": {
+    "type": "content_engaged",
+    "timestamp": "2026-05-29T10:02:30Z",
+    "content_url": "https://retailer.example.com/headphones/sony-wh1000xm5",
+    "data": { "engagement_type": "link_click" }
+  }
+}

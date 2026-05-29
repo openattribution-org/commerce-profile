@@ -1,0 +1,26 @@
+{
+  "_test_description": "Non-conforming commerce flow: a session reports a link_click click-out but carries no content_grounded, content_cited, or content_displayed events. There is no citation chain behind the click, so no click manifest can be built and multi-citation attribution is impossible. Violates the multi-citation support requirement (5.6).",
+  "_test_expected_tier": null,
+  "_test_expected_reason": "no click manifest can be built",
+  "document_type": "session",
+  "schema_version": "0.1",
+  "session_id": "c0ffee00-0002-4a00-8000-000000000002",
+  "ctx_token": "ctx_deadbeef0000",
+  "agent_id": "shopping-assistant-v3",
+  "started_at": "2026-05-29T11:00:00Z",
+  "ended_at": "2026-05-29T11:02:00Z",
+  "events": [
+    {
+      "type": "content_retrieved",
+      "timestamp": "2026-05-29T11:00:01Z",
+      "source_role": "agent",
+      "content_url": "https://www.example-reviews.com/best-anc-headphones"
+    },
+    {
+      "type": "content_engaged",
+      "timestamp": "2026-05-29T11:01:30Z",
+      "content_url": "https://retailer.example.com/headphones/sony-wh1000xm5",
+      "data": { "engagement_type": "link_click" }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "_test_description": "Non-conforming destination-side report: a retailer reports a click-out as a standalone content_engaged link_click but carries no ctx_token. Without it the click cannot be resolved to its originating session, so no click manifest and no multi-citation attribution is possible. Violates the ctx_token propagation requirement (5.5).",
+  "_test_expected_tier": null,
+  "_test_expected_reason": "MUST carry 'ctx_token'",
+  "document_type": "event",
+  "schema_version": "0.1",
+  "event": {
+    "type": "content_engaged",
+    "timestamp": "2026-05-29T10:02:30Z",
+    "content_url": "https://retailer.example.com/headphones/sony-wh1000xm5",
+    "data": { "engagement_type": "link_click" }
+  }
+}
