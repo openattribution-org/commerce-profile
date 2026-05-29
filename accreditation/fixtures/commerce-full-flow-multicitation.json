@@ -1,0 +1,103 @@
+{
+  "_test_description": "Conforming commerce flow: an agent retrieves and grounds two review sources, cites both, displays both, and the user clicks through to a retailer. The session carries a ctx_token so a destination can resolve the click manifest and credit both cited sources, not only the clicked URL. Meets the standard's Retrieval floor, carries the citation chain for multi-citation (5.6), and exercises the ctx_token path (5.5).",
+  "_test_expected_tier": "compliant",
+  "document_type": "session",
+  "schema_version": "0.1",
+  "session_id": "c0ffee00-0001-4a00-8000-000000000001",
+  "ctx_token": "ctx_a1b2c3d4e5f6",
+  "agent_id": "shopping-assistant-v3",
+  "content_scope": "electronics-reviews",
+  "started_at": "2026-05-29T10:00:00Z",
+  "ended_at": "2026-05-29T10:04:00Z",
+  "events": [
+    {
+      "type": "turn_started",
+      "timestamp": "2026-05-29T10:00:00Z",
+      "turn_id": "1",
+      "turn": {
+        "privacy_level": "intent",
+        "query_intent": "purchase_intent",
+        "topics": ["noise-cancelling headphones"],
+        "query_tokens": 14
+      }
+    },
+    {
+      "type": "content_retrieved",
+      "timestamp": "2026-05-29T10:00:01Z",
+      "source_role": "agent",
+      "content_telemetry_id": "770e8400-e29b-41d4-a716-446655440301",
+      "content_url": "https://www.example-reviews.com/best-anc-headphones"
+    },
+    {
+      "type": "content_retrieved",
+      "timestamp": "2026-05-29T10:00:01Z",
+      "source_role": "agent",
+      "content_telemetry_id": "770e8400-e29b-41d4-a716-446655440302",
+      "content_url": "https://www.example-audio.com/sony-wh1000xm5-review"
+    },
+    {
+      "type": "content_grounded",
+      "timestamp": "2026-05-29T10:00:02Z",
+      "content_url": "https://www.example-reviews.com/best-anc-headphones",
+      "content_id": "example-reviews:best-anc-headphones-2026",
+      "data": { "scope": "session", "cached": false, "tokens_ingested": 3800, "media_type": "text" }
+    },
+    {
+      "type": "content_grounded",
+      "timestamp": "2026-05-29T10:00:02Z",
+      "content_url": "https://www.example-audio.com/sony-wh1000xm5-review",
+      "content_id": "example-audio:sony-wh1000xm5",
+      "data": { "scope": "session", "cached": false, "tokens_ingested": 2600, "media_type": "text" }
+    },
+    {
+      "type": "content_cited",
+      "timestamp": "2026-05-29T10:00:05Z",
+      "turn_id": "1",
+      "content_url": "https://www.example-reviews.com/best-anc-headphones",
+      "data": { "citation_type": "paraphrase", "position": "primary" }
+    },
+    {
+      "type": "content_cited",
+      "timestamp": "2026-05-29T10:00:05Z",
+      "turn_id": "1",
+      "content_url": "https://www.example-audio.com/sony-wh1000xm5-review",
+      "data": { "citation_type": "reference", "position": "supporting" }
+    },
+    {
+      "type": "content_displayed",
+      "timestamp": "2026-05-29T10:00:05Z",
+      "turn_id": "1",
+      "content_url": "https://www.example-reviews.com/best-anc-headphones",
+      "data": { "display_type": "link" }
+    },
+    {
+      "type": "content_displayed",
+      "timestamp": "2026-05-29T10:00:05Z",
+      "turn_id": "1",
+      "content_url": "https://www.example-audio.com/sony-wh1000xm5-review",
+      "data": { "display_type": "card" }
+    },
+    {
+      "type": "turn_completed",
+      "timestamp": "2026-05-29T10:00:05Z",
+      "turn_id": "1",
+      "turn": {
+        "privacy_level": "intent",
+        "response_type": "recommendation",
+        "response_mode": "standard",
+        "content_urls_cited": [
+          "https://www.example-reviews.com/best-anc-headphones",
+          "https://www.example-audio.com/sony-wh1000xm5-review"
+        ],
+        "response_tokens": 180
+      }
+    },
+    {
+      "type": "content_engaged",
+      "timestamp": "2026-05-29T10:02:30Z",
+      "turn_id": "1",
+      "content_url": "https://retailer.example.com/headphones/sony-wh1000xm5",
+      "data": { "engagement_type": "link_click" }
+    }
+  ]
+}
