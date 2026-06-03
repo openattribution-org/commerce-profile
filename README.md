@@ -1,10 +1,10 @@
 # OpenAttribution Commerce Profile
 
-**Commerce-facing requirements for the OpenAttribution Telemetry standard.**
+**Commerce-facing requirements for the Content Telemetry standard.**
 
 This directory is a **draft profile**. It names a single accreditation tier - Compliant - and the requirements an implementer in agentic commerce (affiliate networks, marketplaces, brands, destination sites) must meet to be assessed at it: conformance to the standard, event-level and real-time delivery, click-out reporting, `ctx_token` propagation across the click boundary, multi-citation attribution, and - for attribution consumers - resolving a `ctx_token` to a privacy- and consent-gated click manifest.
 
-The **standard** - the telemetry wire format itself - lives in [openattribution-org/telemetry](https://github.com/openattribution-org/telemetry). This profile references the standard by version and does not restate it.
+The **standard** - the telemetry wire format itself - lives in [SPUR-Coalition/telemetry](https://github.com/SPUR-Coalition/telemetry). This profile references the standard by version and does not restate it.
 
 ## The point of this profile
 
@@ -44,4 +44,4 @@ No external dependencies. Exit code 0 means every fixture's assessed tier matche
 
 ## Status
 
-Draft (v0.1). Constrains OpenAttribution Telemetry v0.1. The two standard additions this profile relies on - the `ctx_token` field and its click-manifest resolution semantics - have landed in the telemetry standard ([openattribution-org/telemetry#4](https://github.com/openattribution-org/telemetry/pull/4)); the profile's one-way dependency on the standard is clean once that merges. Requirements may change before 1.0.
+Draft (v0.1). Constrains Content Telemetry v0.1. The two standard additions this profile relies on - the `ctx_token` field and its click-manifest resolution semantics - are present in the Content Telemetry standard v0.1 (sections 6.7 and 7.1), so the profile's one-way dependency on the standard is clean. Requirements may change before 1.0.
