@@ -1,18 +1,18 @@
 # OpenAttribution Commerce Profile
 
-Commerce-facing requirements for the OpenAttribution Telemetry standard.
+Commerce-facing requirements for the Content Telemetry standard.
 
 **Version:** 0.1
 **Status:** Draft
-**Last updated:** 2026-05-29
-**Constrains:** OpenAttribution Telemetry specification, version 0.1
+**Last updated:** 2026-06-03
+**Constrains:** Content Telemetry specification, version 0.1
 
 ## Contents
 
 1. [Scope](#1-scope)
 2. [Normative references](#2-normative-references)
 3. [Terms and definitions](#3-terms-and-definitions)
-4. [Relationship to the OpenAttribution Telemetry standard](#4-relationship-to-the-openattribution-telemetry-standard)
+4. [Relationship to the Content Telemetry standard](#4-relationship-to-the-content-telemetry-standard)
 5. [Requirements](#5-requirements)
 6. [Conformance assessment](#6-conformance-assessment)
 7. [The OpenAttribution Commerce conformance mark](#7-the-openattribution-commerce-conformance-mark)
@@ -20,7 +20,7 @@ Commerce-facing requirements for the OpenAttribution Telemetry standard.
 
 ## Introduction
 
-The OpenAttribution Telemetry standard defines a wire format for reporting how AI agents use content. The format is permissive: an emitter producing well-formed events at any conformance level is conforming to the standard.
+The Content Telemetry standard defines a wire format for reporting how AI agents use content. The format is permissive: an emitter producing well-formed events at any conformance level is conforming to the standard.
 
 This profile is the commerce-facing layer. It applies to participants in agentic commerce: affiliate networks, marketplaces, brands, and destination sites that receive AI-driven traffic and want to attribute it to the content that produced it. It names a single accreditation tier, Compliant, and the requirements an implementer must meet to be assessed at it.
 
@@ -42,7 +42,7 @@ This document specifies:
 
 This document does not specify:
 
-- the telemetry wire format - event types, schema, conformance levels, transport (see the OpenAttribution Telemetry specification, the normative reference in section 2)
+- the telemetry wire format - event types, schema, conformance levels, transport (see the Content Telemetry specification, the normative reference in section 2)
 - attribution algorithms, counting models, or commission logic
 - content access, licensing, or pricing terms
 - privacy policies or data protection requirements
@@ -52,15 +52,15 @@ This document does not specify:
 
 | Reference | Description |
 |-----------|-------------|
-| OpenAttribution Telemetry specification, version 0.1 | The telemetry wire format this profile constrains. <https://github.com/openattribution-org/telemetry> |
+| Content Telemetry specification, version 0.1 | The telemetry wire format this profile constrains. <https://github.com/SPUR-Coalition/telemetry> |
 | RFC 2119 | Key words for use in RFCs to indicate requirement levels |
 | RFC 8174 | Ambiguity of uppercase vs lowercase in RFC 2119 key words |
 
-This profile constrains a fixed version of the OpenAttribution Telemetry specification. Where this document refers to "the standard", it means version 0.1 as cited above. Adoption of a later standard version is a deliberate revision of this profile (section 8).
+This profile constrains a fixed version of the Content Telemetry specification. Where this document refers to "the standard", it means version 0.1 as cited above. Adoption of a later standard version is a deliberate revision of this profile (section 8).
 
 ## 3. Terms and definitions
 
-The terms defined in the OpenAttribution Telemetry specification section 3 apply. In addition, for the purposes of this document:
+The terms defined in the Content Telemetry specification section 3 apply. In addition, for the purposes of this document:
 
 ### 3.1
 
@@ -110,13 +110,13 @@ the set of `content_grounded`, `content_cited`, and `content_displayed` events f
 
 crediting every source in the click manifest for a click-out, rather than only the single clicked URL (section 5.6)
 
-## 4. Relationship to the OpenAttribution Telemetry standard
+## 4. Relationship to the Content Telemetry standard
 
 The standard defines the wire format. This profile selects from it and adds requirements specific to commerce.
 
 This profile uses the standard's three economic actors (standard, section 4.1 Roles): the **content owner** (the editorial source whose reviews, guides, and recommendations shape the response), the **intermediary** (the marketplace, affiliate or ad network, or attribution vendor that observes flows and resolves attribution), and the **agent** (the AI shopping assistant). A **destination** or **brand** in this profile is a content owner of its own landing content; where it also operates a network or marketplace it is additionally an intermediary, and the requirements that attach to each role apply to it in each capacity. As in the standard, *emitter* and *attribution consumer* are functions, not actors: an affiliate network is an intermediary that is typically both.
 
-The standard defines three conformance levels - Retrieval, Grounding, and Attribution (standard, section 5.7) - a privacy mechanism with four levels (standard, section 5.5), the `ctx_token` click-out mechanism and its resolution (standard, section 7.1). The standard makes none of these mandatory for any relationship.
+The standard defines three conformance levels - Retrieval, Grounding, and Citation (standard, section 5.7) - a privacy mechanism with four levels (standard, section 5.5), the `ctx_token` click-out mechanism and its resolution (standard, section 7.1). The standard makes none of these mandatory for any relationship.
 
 This profile builds on the standard's mechanisms without changing them. An implementer that meets this profile's requirements is, by construction, conforming to the standard. An implementer can conform to the standard without engaging with this profile at all.
 
@@ -128,9 +128,9 @@ An implementer assessed as OpenAttribution Commerce Compliant MUST meet every re
 
 ### 5.1 Conformance to the standard
 
-The implementer MUST be a conforming emitter to the OpenAttribution Telemetry specification at any conformance level - Retrieval, Grounding, or Attribution. Conformance is verified against the standard's reference test suite (standard, section 5.7).
+The implementer MUST be a conforming emitter to the Content Telemetry specification at any conformance level - Retrieval, Grounding, or Citation. Conformance is verified against the standard's reference test suite (standard, section 5.7).
 
-A destination site reporting click-out engagement events qualifies at the Retrieval level for those events. An agent reporting the full lifecycle from retrieval through engagement qualifies at the Attribution level. Both are Compliant under this profile where they meet the commerce requirements below.
+A destination site reporting click-out engagement events qualifies at the Retrieval level for those events. An agent reporting the full lifecycle from retrieval through engagement qualifies at the Citation level. Both are Compliant under this profile where they meet the commerce requirements below.
 
 ### 5.2 Event-level delivery
 
@@ -172,7 +172,7 @@ Sections 5.1 to 5.5 govern emitters; section 5.6 governs any party that performs
 
 #### 5.7.1 Conformance to the standard
 
-The consumer MUST meet the attribution-consumer conformance rules of the OpenAttribution Telemetry specification (standard, section 5.7): accept any session with a compatible schema version, tolerate unknown fields and events from any conformance level, accept both the session-document and standalone-event delivery formats and reconstruct sessions from standalone events, and strip privacy-violating fields rather than reject the document carrying them.
+The consumer MUST meet the attribution-consumer conformance rules of the Content Telemetry specification (standard, section 5.7): accept any session with a compatible schema version, tolerate unknown fields and events from any conformance level, accept both the session-document and standalone-event delivery formats and reconstruct sessions from standalone events, and strip privacy-violating fields rather than reject the document carrying them.
 
 #### 5.7.2 ctx_token resolution to a click manifest
 
@@ -220,6 +220,6 @@ This profile is versioned independently of the standard it constrains.
 
 Draft and preview versions (0.x) may change the requirements as the accreditation programme develops. From 1.0 onward, a change that adds, removes, or materially alters a requirement is a major version change.
 
-This profile constrains a fixed version of the standard (section 2). When the OpenAttribution Telemetry standard publishes a new version, the working group decides whether this profile adopts it. Adoption is a deliberate revision: the section 2 reference changes, and the change is published as a new profile version. The standard advancing does not change this profile until the profile is revised to follow it.
+This profile constrains a fixed version of the standard (section 2). When the Content Telemetry standard publishes a new version, the working group decides whether this profile adopts it. Adoption is a deliberate revision: the section 2 reference changes, and the change is published as a new profile version. The standard advancing does not change this profile until the profile is revised to follow it.
 
 If stewardship of the standard transfers to another body, this profile updates its section 2 reference to the standard's new name and location. The requirements are unaffected - they reference conformance levels, event semantics, and the `ctx_token` mechanism, which are properties of the format, not of its steward.
