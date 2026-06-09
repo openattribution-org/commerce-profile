@@ -25,7 +25,7 @@ The standard is permissive and value-neutral; this profile adds commerce-specifi
 
 | Requirement | Means |
 |-------------|-------|
-| Conformance to the standard | Conforming emitter at Retrieval, Grounding, or Attribution level |
+| Conformance to the standard | Conforming emitter at Retrieval, Grounding, or Citation level |
 | Event-level delivery | Discrete events per fetch / grounding / citation / display / engagement - no aggregation |
 | Real-time delivery | Events dispatched as they occur; alternative cadence by negotiation |
 | Click-out reporting | Click-outs reported as `content_engaged` / `link_click` events |
