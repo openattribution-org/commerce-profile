@@ -2,7 +2,7 @@
 
 **Commerce-facing requirements for the Content Telemetry standard.**
 
-This directory is a **draft profile**. It names a single accreditation tier - Compliant - and the requirements an implementer in agentic commerce (affiliate networks, marketplaces, brands, destination sites) must meet to be assessed at it: conformance to the standard, event-level and real-time delivery, click-out reporting, `ctx_token` propagation across the click boundary, multi-citation attribution, and - for telemetry consumers - resolving a `ctx_token` to a privacy- and consent-gated click manifest.
+This repository is a **draft profile**. It names a single accreditation tier - Compliant - and the requirements an implementer in agentic commerce (affiliate networks, marketplaces, brands, destination sites) must meet to be assessed at it: conformance to the standard, event-level and real-time delivery, click-out reporting, `ctx_token` propagation across the click boundary, multi-citation attribution, and - for telemetry consumers - resolving a `ctx_token` to a privacy- and consent-gated click manifest.
 
 The **standard** - the telemetry wire format itself - lives in [SPUR-Coalition/telemetry](https://github.com/SPUR-Coalition/telemetry). This profile references the standard by version and does not restate it.
 
@@ -16,10 +16,11 @@ The mechanism is the standard's `ctx_token`: an opaque click-token the agent iss
 
 The standard is permissive and value-neutral; this profile adds commerce-specific requirements on top. The dependency runs one way - profile to standard, never the reverse - so the profile can change its requirements, and other communities can profile the same standard, without touching the wire format. The profile names no operator and no hosted endpoint: a competing operator can implement and be assessed against it with no dependency on any single operator's infrastructure.
 
-## What's in this directory
+## Repo contents
 
 - [PROFILE.md](./PROFILE.md) - the profile: requirements, conformance assessment, conformance mark
 - [accreditation/](./accreditation/) - example fixtures and the assessment runner
+- [LICENSE](./LICENSE) - Creative Commons Attribution-ShareAlike 4.0 International
 
 ## Compliant at a glance
 

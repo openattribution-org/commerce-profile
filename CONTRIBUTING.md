@@ -1,0 +1,34 @@
+# Contributing to the OpenAttribution Commerce Profile
+
+## What belongs here
+
+This repository contains the **profile** - the requirements for the Compliant tier and the OpenAttribution Commerce conformance mark. It does not contain the telemetry wire format. Changes to event types, schema, or conformance levels belong in the [standard repository](https://github.com/SPUR-Coalition/telemetry).
+
+| File | Purpose |
+|------|---------|
+| [PROFILE.md](./PROFILE.md) | The normative profile |
+| [accreditation/](./accreditation/) | Example fixtures and the assessment runner |
+
+## Proposing changes
+
+The profile's requirements affect every accredited implementer. Before submitting a PR:
+
+1. Open an issue describing the change and its motivation.
+2. State which requirement is affected and whether the change moves implementers in or out of the Compliant tier.
+3. If the change depends on a new version of the standard, reference the standard issue or version.
+4. Update PROFILE.md and any affected fixtures in `accreditation/`.
+5. Run the fixture suite: `python3 accreditation/validate.py` (no dependencies). It runs in CI on every pull request.
+
+## Adopting a new standard version
+
+This profile constrains a fixed version of the Content Telemetry standard (PROFILE.md section 2). Adopting a later standard version is a revision: open an issue, update the section 2 reference, and publish a new profile version.
+
+## Conventions
+
+- British English.
+- Sentence case for headings.
+- RFC 2119 keywords (MUST, SHOULD, MAY) per PROFILE.md.
+
+## Licensing
+
+This profile is published under the [Creative Commons Attribution-ShareAlike 4.0 International licence](./LICENSE). By submitting a contribution you agree to license it under the same terms. The OpenAttribution Commerce conformance mark is a trademark and is not licensed by CC BY-SA; it is granted only through accreditation (PROFILE.md section 7).

@@ -4,7 +4,7 @@ Commerce-facing requirements for the Content Telemetry standard.
 
 **Version:** 0.1
 **Status:** Draft
-**Last updated:** 2026-06-03
+**Last updated:** 2026-06-10
 **Constrains:** Content Telemetry specification, version 0.1
 
 ## Contents
@@ -210,7 +210,7 @@ An OpenAttribution Commerce-accredited implementer may display the OpenAttributi
 - The mark refers to a specific version of this profile. An implementer reassessed against a later profile version updates the mark accordingly.
 - OpenAttribution may withdraw the right to display the mark from an implementer that no longer meets the requirements.
 
-The conformance mark is a trademark of OpenAttribution. Permission to display it is granted through accreditation and is separate from the licence that covers this document. The licence does not grant any right to use the mark or other OpenAttribution trademarks; that right is conveyed only through accreditation.
+The conformance mark is a trademark of OpenAttribution. Permission to display it is granted through accreditation and is separate from the [Creative Commons Attribution-ShareAlike 4.0 International licence](./LICENSE) that covers this document. Consistent with section 2(b)(2) of that licence, the licence grants no right to use the OpenAttribution Commerce conformance mark or other OpenAttribution trademarks; that right is conveyed only through accreditation.
 
 Mark artwork and detailed display rules are published separately by OpenAttribution.
 
