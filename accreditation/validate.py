@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Accreditation assessment for the OpenAttribution Commerce Profile.
 
-This profile defines a single tier - Compliant - layered on the OpenAttribution
+This profile defines a single tier - Compliant - layered on the Content
 Telemetry standard. The base technical requirement (PROFILE.md section 5.1) is
-that the implementer is a conforming emitter to the standard at any conformance
-level; the cheapest to satisfy is Retrieval (standard, section 5.7.1), and
-Grounding and Attribution are cumulative on it.
+that the implementer emits valid Content Telemetry documents; where it advertises
+a standard conformance level, Retrieval is the cheapest to satisfy and Grounding
+and Citation are cumulative on it.
 
 On top of that base, this profile adds commerce-specific requirements that ARE
 checkable from a telemetry document:
@@ -70,8 +70,8 @@ def events(doc):
     return doc.get("events", []) or []
 
 
-def check_retrieval(doc):
-    """Standard-conformance floor - standard section 5.7.1."""
+def check_base_document(doc):
+    """Document-level checks shared by Content Telemetry content events."""
     fails = []
     for i, event in enumerate(events(doc)):
         etype = event.get("type", "?")
@@ -162,7 +162,7 @@ def check_multi_citation(doc):
 
 def assess(doc):
     """Return (tier or None, blocking reasons) for a document."""
-    fails = check_retrieval(doc) + check_ctx_token(doc) + check_multi_citation(doc)
+    fails = check_base_document(doc) + check_ctx_token(doc) + check_multi_citation(doc)
     if not fails:
         return "compliant", []
     return None, fails

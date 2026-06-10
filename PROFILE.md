@@ -26,7 +26,7 @@ This profile is the commerce-facing layer. It applies to participants in agentic
 
 When an AI agent recommends a product, that recommendation was shaped by content the agent read: reviews, comparison guides, editorial recommendations. The agent retrieves that content, grounds it, cites some of it, displays some of it, and the user clicks through to a destination. A single click is the end of a chain of sources, not a single referrer. This profile exists to keep that chain intact across the boundary between the agent and the landing page, so a destination can credit every source that informed the response, not only the one URL the user happened to click.
 
-The mechanism is the standard's `ctx_token` (standard, section 7.1): an opaque click-token the agent issues, which crosses to the landing page in place of the session identifier, and which an attribution consumer resolves to the originating session. This profile requires that propagation and the consumer-side resolution that makes it useful.
+The mechanism is the standard's `ctx_token` (standard, section 7.1): an opaque click-token the agent issues, which crosses to the landing page in place of the session identifier, and which a telemetry consumer resolves to the originating session. This profile requires that propagation and the consumer-side resolution that makes it useful.
 
 The standard and this profile are maintained separately. The standard defines the format; this profile defines the commerce-facing requirements layered on it. This profile adds requirements; it never modifies the wire format.
 
@@ -78,7 +78,7 @@ named tier of accreditation under this profile - meeting every requirement in se
 
 **accredited implementer**
 
-emitter or attribution consumer assessed as meeting this profile's requirements
+emitter or telemetry consumer assessed as meeting this profile's requirements
 
 ### 3.4
 
@@ -114,7 +114,7 @@ crediting every source in the click manifest for a click-out, rather than only t
 
 The standard defines the wire format. This profile selects from it and adds requirements specific to commerce.
 
-This profile uses the standard's three economic actors (standard, section 4.1 Roles): the **content owner** (the editorial source whose reviews, guides, and recommendations shape the response), the **intermediary** (the marketplace, affiliate or ad network, or attribution vendor that observes flows and resolves attribution), and the **agent** (the AI shopping assistant). A **destination** or **brand** in this profile is a content owner of its own landing content; where it also operates a network or marketplace it is additionally an intermediary, and the requirements that attach to each role apply to it in each capacity. As in the standard, *emitter* and *attribution consumer* are functions, not actors: an affiliate network is an intermediary that is typically both.
+This profile uses the standard's three economic actors (standard, section 4.1 Roles): the **content owner** (the editorial source whose reviews, guides, and recommendations shape the response), the **intermediary** (the marketplace, affiliate or ad network, or telemetry vendor that observes flows and resolves attribution), and the **agent** (the AI shopping assistant). A **destination** or **brand** in this profile is a content owner of its own landing content; where it also operates a network or marketplace it is additionally an intermediary, and the requirements that attach to each role apply to it in each capacity. As in the standard, *emitter* and *telemetry consumer* are functions, not actors: an affiliate network is an intermediary that is typically both.
 
 The standard defines three conformance levels - Retrieval, Grounding, and Citation (standard, section 5.7) - a privacy mechanism with four levels (standard, section 5.5), the `ctx_token` click-out mechanism and its resolution (standard, section 7.1). The standard makes none of these mandatory for any relationship.
 
@@ -124,13 +124,13 @@ The dependency runs one way - profile to standard, never the reverse. The standa
 
 ## 5. Requirements
 
-An implementer assessed as OpenAttribution Commerce Compliant MUST meet every requirement below that applies to its role: an emitter against sections 5.1 to 5.5; a party that performs attribution on click-outs against section 5.6; an attribution consumer against section 5.7. Multi-citation attribution (section 5.6) is the requirement that distinguishes this profile.
+An implementer assessed as OpenAttribution Commerce Compliant MUST meet every requirement below that applies to its role: an emitter against sections 5.1 to 5.5; a party that performs attribution on click-outs against section 5.6; a telemetry consumer against section 5.7. Multi-citation attribution (section 5.6) is the requirement that distinguishes this profile.
 
 ### 5.1 Conformance to the standard
 
-The implementer MUST be a conforming emitter to the Content Telemetry specification at any conformance level - Retrieval, Grounding, or Citation. Conformance is verified against the standard's reference test suite (standard, section 5.7).
+The implementer MUST emit Content Telemetry documents that are valid under the standard. Where an implementer advertises a standard conformance level - Retrieval, Grounding, or Citation - it MUST satisfy that level's requirements. Conformance is verified against the standard's reference test suite where the advertised level is document-checkable (standard, section 5.7).
 
-A destination site reporting click-out engagement events qualifies at the Retrieval level for those events. An agent reporting the full lifecycle from retrieval through engagement qualifies at the Citation level. Both are Compliant under this profile where they meet the commerce requirements below.
+A destination site reporting click-out engagement events is a schema-valid engagement emitter, but does not qualify at Retrieval level unless it also emits the `content_retrieved` events Retrieval requires. An agent reporting retrieval, grounding, and citation qualifies at the Citation level; display and engagement events are optional lifecycle signals under the standard. Both can be Compliant under this profile where they meet the commerce requirements below.
 
 ### 5.2 Event-level delivery
 
@@ -154,7 +154,7 @@ This is the event that anchors commerce attribution: it records that a user acte
 
 On a `content_engaged` event with `engagement_type: link_click` that crosses to a landing page after a click-out, the implementer MUST propagate the session linkage using the `ctx_token` mechanism (standard, section 7.1): the event carries a `ctx_token` issued by the originating agent in place of `session_id`.
 
-The implementer MUST NOT carry the raw `session_id` across the agent-to-landing-page boundary. The `ctx_token` is opaque and resolvable only by an attribution consumer, so the session identifier is not exposed to the destination or to any party observing the outbound link. An implementer that emits a cross-boundary `link_click` engagement with neither `ctx_token` nor a resolvable session linkage does not meet this requirement.
+The implementer MUST NOT carry the raw `session_id` across the agent-to-landing-page boundary. The `ctx_token` is opaque and resolvable only by a telemetry consumer, so the session identifier is not exposed to the destination or to any party observing the outbound link. An implementer that emits a cross-boundary `link_click` engagement with neither `ctx_token` nor a resolvable session linkage does not meet this requirement.
 
 ### 5.6 Multi-citation attribution
 
@@ -166,13 +166,13 @@ The click manifest is the set of those events for the resolved session; the impl
 
 The manifest reflects only what privacy and consent permit (section 5.7.2). Sources withheld by `privacy_level` gating or by a missing consent opt-in are not in the manifest and cannot be credited; this is a property of the data the implementer receives, not a relaxation of this requirement.
 
-### 5.7 Attribution consumer requirements
+### 5.7 Telemetry consumer requirements
 
-Sections 5.1 to 5.5 govern emitters; section 5.6 governs any party that performs attribution on received events. An attribution consumer - a party that receives telemetry and resolves `ctx_token`s to click manifests (standard, section 7.3 and section 7.1) - is assessed against the requirements below. The multi-citation requirement in section 5.6 relies on them.
+Sections 5.1 to 5.5 govern emitters; section 5.6 governs any party that performs attribution on received events. A telemetry consumer - a party that receives telemetry and resolves `ctx_token`s to click manifests (standard, section 7.3 and section 7.1) - is assessed against the requirements below. The multi-citation requirement in section 5.6 relies on them.
 
 #### 5.7.1 Conformance to the standard
 
-The consumer MUST meet the attribution-consumer conformance rules of the Content Telemetry specification (standard, section 5.7): accept any session with a compatible schema version, tolerate unknown fields and events from any conformance level, accept both the session-document and standalone-event delivery formats and reconstruct sessions from standalone events, and strip privacy-violating fields rather than reject the document carrying them.
+The consumer MUST meet the telemetry-consumer conformance rules of the Content Telemetry specification (standard, section 5.7): accept any session with a compatible schema version, tolerate unknown fields and events from any conformance level, accept both the session-document and standalone-event delivery formats and reconstruct sessions from standalone events, and strip privacy-violating fields rather than reject the document carrying them.
 
 #### 5.7.2 ctx_token resolution to a click manifest
 
@@ -193,9 +193,9 @@ Aggregate or anonymised reporting across a catalogue - benchmarks that do not re
 
 ## 6. Conformance assessment
 
-An implementer is assessed as OpenAttribution Commerce Compliant when it meets every requirement in section 5 that applies to its role: an emitter against sections 5.1 to 5.5, a party that performs attribution on click-outs against section 5.6, an attribution consumer against section 5.7. Assessment has two parts:
+An implementer is assessed as OpenAttribution Commerce Compliant when it meets every requirement in section 5 that applies to its role: an emitter against sections 5.1 to 5.5, a party that performs attribution on click-outs against section 5.6, a telemetry consumer against section 5.7. Assessment has two parts:
 
-1. **Technical conformance** - verified against the standard's reference test suite, for the conformance level an emitter advertises (5.1) or against the standard's attribution-consumer rules for a consumer (5.7.1), plus the commerce-specific document checks in the [`accreditation/`](./accreditation/) suite: a cross-boundary `link_click` engagement carries a `ctx_token` and not a raw `session_id` (5.5), and a conforming commerce flow records the grounded, cited, and displayed sources that make a click manifest possible (5.6). An objective, repeatable check.
+1. **Technical conformance** - verified against the standard's reference test suite, for the conformance level an emitter advertises (5.1) or against the standard's telemetry-consumer rules for a consumer (5.7.1), plus the commerce-specific document checks in the [`accreditation/`](./accreditation/) suite: a cross-boundary `link_click` engagement carries a `ctx_token` and not a raw `session_id` (5.5), and a conforming commerce flow records the grounded, cited, and displayed sources that make a click manifest possible (5.6). An objective, repeatable check.
 2. **Operational requirements** - event-level granularity and real-time delivery (5.2, 5.3), `ctx_token` resolution to a privacy- and consent-gated click manifest (5.7.2), multi-citation crediting of the manifest (5.6), and content-owner resolution and isolation (5.7.3), verified by inspection of the implementer's pipeline and by attestation.
 
 The [`accreditation/`](./accreditation/) directory holds example fixtures: telemetry documents that do and do not satisfy the document-checkable component of this profile. Operational requirements - cadence, the consent gate, the weighting model, and content-owner isolation - cannot be fixture-tested and are assessed separately.

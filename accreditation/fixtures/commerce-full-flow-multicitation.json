@@ -1,5 +1,5 @@
 {
-  "_test_description": "Conforming commerce flow: an agent retrieves and grounds two review sources, cites both, displays both, and the user clicks through to a retailer. The session carries a ctx_token so a destination can resolve the click manifest and credit both cited sources, not only the clicked URL. Meets the standard's Retrieval floor, carries the citation chain for multi-citation (5.6), and exercises the ctx_token path (5.5).",
+  "_test_description": "Conforming commerce flow: an agent retrieves and grounds two review sources, cites both, displays both, and the user clicks through to a retailer. The session carries a ctx_token so a destination can resolve the click manifest and credit both cited sources, not only the clicked URL. Emits valid Content Telemetry, carries the citation chain for multi-citation (5.6), and exercises the ctx_token path (5.5).",
   "_test_expected_tier": "compliant",
   "document_type": "session",
   "schema_version": "0.1",
