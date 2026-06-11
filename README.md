@@ -20,7 +20,11 @@ The standard is permissive and value-neutral; this profile adds commerce-specifi
 
 - [PROFILE.md](./PROFILE.md) - the profile: requirements, conformance assessment, conformance mark
 - [accreditation/](./accreditation/) - example fixtures and the assessment runner
-- [LICENSE](./LICENSE) - Creative Commons Attribution-ShareAlike 4.0 International
+- [acp/](./acp/) - ACP binding: the `content_attribution` extension embedding citation data in Agentic Commerce Protocol checkouts (Apache 2.0)
+- [ucp/](./ucp/) - UCP binding: the `org.openattribution.telemetry` vendor extension and standalone capability for Universal Commerce Protocol (Apache 2.0)
+- [LICENSE](./LICENSE) - Creative Commons Attribution-ShareAlike 4.0 International (the profile text; the binding schemas under `acp/` and `ucp/` are Apache 2.0)
+
+The ACP and UCP bindings moved here from the retired `openattribution-org/telemetry` repository; they are protocol bindings of the neutral [Content Telemetry standard](https://github.com/SPUR-Coalition/telemetry), maintained by OpenAttribution alongside this profile.
 
 ## Compliant at a glance
 

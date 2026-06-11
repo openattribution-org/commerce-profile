@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openattribution.org/telemetry/ucp/schemas/extension.json",
+  "$comment": "UCP binding of Content Telemetry v0.1. Canonical specification: https://contenttelemetry.org",
+  "name": "org.openattribution.telemetry",
+  "title": "Content Telemetry Extension for UCP",
+  "description": "UCP extension for content attribution telemetry. Extends dev.ucp.shopping.checkout to track which content influenced commerce outcomes.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://ucp.dev/schemas/shopping/checkout.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "attribution": {
+          "$ref": "#/$defs/Attribution"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "Attribution": {
+      "type": "object",
+      "description": "Content attribution data for the checkout session",
+      "required": ["content_retrieved"],
+      "properties": {
+        "content_scope": {
+          "type": "string",
+          "description": "Opaque content collection identifier. Implementer-defined: mix ID, API key scope, or agreement ID."
+        },
+        "content_retrieved": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/ContentRetrieved"
+          },
+          "description": "Content fetched during the session that may have influenced the purchase decision."
+        },
+        "content_cited": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/ContentCited"
+          },
+          "description": "Content explicitly used or referenced in agent responses."
+        },
+        "conversation_summary": {
+          "$ref": "#/$defs/ConversationSummary",
+          "description": "Lightweight conversation context. All fields are agent-reported hints."
+        }
+      }
+    },
+    "ContentRetrieved": {
+      "type": "object",
+      "description": "Content fetched during the session",
+      "required": ["content_url", "timestamp"],
+      "properties": {
+        "content_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the content retrieved"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the content was retrieved (UTC)"
+        }
+      }
+    },
+    "ContentCited": {
+      "type": "object",
+      "description": "Content cited in an agent response with quality signals",
+      "required": ["content_url", "timestamp"],
+      "properties": {
+        "content_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the content cited"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the content was cited (UTC)"
+        },
+        "citation_type": {
+          "type": "string",
+          "enum": ["direct_quote", "paraphrase", "reference", "contradiction"],
+          "description": "How the content was used. 'contradiction' enables negative attribution for content that was retrieved but disagreed with."
+        },
+        "excerpt_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Token count of the excerpt used, distinguishing a 2-sentence snippet from a 10,000-word guide."
+        },
+        "position": {
+          "type": "string",
+          "enum": ["primary", "supporting", "mentioned"],
+          "description": "Prominence in the response. 'primary' = main basis for answer, 'supporting' = additional evidence, 'mentioned' = referenced but not relied upon."
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-fA-F0-9]{64}$",
+          "description": "SHA-256 hash of the content the agent processed from this URL, for integrity audit trail in dispute resolution (format: 'sha256:abc123...')"
+        }
+      }
+    },
+    "ConversationSummary": {
+      "type": "object",
+      "description": "Lightweight conversation context. All fields are agent-reported hints.",
+      "properties": {
+        "turn_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of conversation turns before checkout"
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "De-duplicated free-form topic tags from the conversation"
+        }
+      }
+    }
+  }
+}
