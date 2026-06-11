@@ -86,7 +86,7 @@
         },
         "citation_type": {
           "type": "string",
-          "enum": ["direct_quote", "paraphrase", "reference", "contradiction"],
+          "enum": ["direct_quote", "paraphrase", "reference", "contradiction", "unclassified"],
           "description": "How the content was used. 'contradiction' enables negative attribution for content that was retrieved but disagreed with."
         },
         "excerpt_tokens": {
@@ -96,7 +96,7 @@
         },
         "position": {
           "type": "string",
-          "enum": ["primary", "supporting", "mentioned"],
+          "enum": ["primary", "supporting", "mentioned", "unclassified"],
           "description": "Prominence in the response. 'primary' = main basis for answer, 'supporting' = additional evidence, 'mentioned' = referenced but not relied upon."
         },
         "content_hash": {

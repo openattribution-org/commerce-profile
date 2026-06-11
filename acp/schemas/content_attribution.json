@@ -52,7 +52,7 @@
           },
           "citation_type": {
             "type": "string",
-            "enum": ["direct_quote", "paraphrase", "reference", "contradiction"],
+            "enum": ["direct_quote", "paraphrase", "reference", "contradiction", "unclassified"],
             "description": "How the content was used in the response."
           },
           "excerpt_tokens": {
@@ -62,7 +62,7 @@
           },
           "position": {
             "type": "string",
-            "enum": ["primary", "supporting", "mentioned"],
+            "enum": ["primary", "supporting", "mentioned", "unclassified"],
             "description": "Prominence of the citation in the response."
           },
           "content_hash": {

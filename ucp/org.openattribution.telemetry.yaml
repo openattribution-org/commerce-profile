@@ -231,7 +231,7 @@ mcp_tools:
           $ref: "#/schemas/SessionOutcome"
 
 # ------------------------------------------------------------------------------
-# Schemas (aligned with OpenAttribution Specification v0.1)
+# Schemas (aligned with Content Telemetry v0.1)
 # ------------------------------------------------------------------------------
 
 schemas:
@@ -349,6 +349,7 @@ schemas:
         enum:
           # Content lifecycle events
           - content_retrieved
+          - content_grounded
           - content_displayed
           - content_engaged
           - content_cited
@@ -357,7 +358,7 @@ schemas:
           - turn_completed
           # Outcome events
           - checkout_completed
-        description: Event type per OpenAttribution Specification v0.1
+        description: Event type per Content Telemetry v0.1
 
       timestamp:
         type: string
@@ -386,13 +387,13 @@ schemas:
           # Citation quality signals
           citation_type:
             type: string
-            enum: [direct_quote, paraphrase, reference, contradiction]
+            enum: [direct_quote, paraphrase, reference, contradiction, unclassified]
           excerpt_tokens:
             type: integer
             description: Token count of cited excerpt
           position:
             type: string
-            enum: [primary, supporting, mentioned]
+            enum: [primary, supporting, mentioned, unclassified]
           content_hash:
             type: string
             description: SHA-256 hash of the content the agent processed, for integrity audit trail in dispute resolution

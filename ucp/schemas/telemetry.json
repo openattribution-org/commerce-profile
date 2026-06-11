@@ -33,6 +33,7 @@
       "type": "string",
       "enum": [
         "content_retrieved",
+        "content_grounded",
         "content_displayed",
         "content_engaged",
         "content_cited",
@@ -66,12 +67,12 @@
 
     "citation_type": {
       "type": "string",
-      "enum": ["direct_quote", "paraphrase", "reference", "contradiction"]
+      "enum": ["direct_quote", "paraphrase", "reference", "contradiction", "unclassified"]
     },
 
     "position_type": {
       "type": "string",
-      "enum": ["primary", "supporting", "mentioned"]
+      "enum": ["primary", "supporting", "mentioned", "unclassified"]
     },
 
     "user_context": {

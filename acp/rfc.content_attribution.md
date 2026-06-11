@@ -74,9 +74,9 @@ The `content_attribution` object is included in `CheckoutSessionCreateRequest` a
 |-------|------|----------|-------------|
 | `content_url` | string (URI) | Yes | URI of content cited |
 | `timestamp` | string (ISO 8601) | Yes | UTC timestamp of citation |
-| `citation_type` | string | No | How the content was used: `direct_quote`, `paraphrase`, `reference`, or `contradiction` |
+| `citation_type` | string | No | How the content was used: `direct_quote`, `paraphrase`, `reference`, `contradiction`, or `unclassified` |
 | `excerpt_tokens` | integer | No | Token count of the cited excerpt |
-| `position` | string | No | Prominence in the response: `primary`, `supporting`, or `mentioned` |
+| `position` | string | No | Prominence in the response: `primary`, `supporting`, `mentioned`, or `unclassified` |
 | `content_hash` | string | No | SHA-256 hash of the content the agent processed from this URL (format: `sha256:{hex}`) |
 
 #### `conversation_summary` Object

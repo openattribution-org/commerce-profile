@@ -133,6 +133,7 @@ Content explicitly referenced in agent responses. Includes quality signals for m
 | `paraphrase` | Restated in different words |
 | `reference` | Mentioned without quoting |
 | `contradiction` | Retrieved but disagreed with |
+| `unclassified` | The agent did not classify this citation |
 
 These are agent-reported metadata describing how content appeared in a response. How each type is weighted for attribution is left to the consuming analytics platform.
 
@@ -143,6 +144,7 @@ These are agent-reported metadata describing how content appeared in a response.
 | `primary` | Main basis for the response |
 | `supporting` | Additional evidence |
 | `mentioned` | Referenced but not relied upon |
+| `unclassified` | The agent did not determine prominence |
 
 #### Content Hash
 
@@ -184,7 +186,7 @@ Graceful degradation: the checkout proceeds normally regardless. Attribution is 
 
 ### Privacy Levels
 
-For implementations that need more granular control, the full OpenAttribution spec defines privacy levels (`full`, `summary`, `intent`, `minimal`).
+For implementations that need more granular control, the Content Telemetry standard defines privacy levels (`full`, `summary`, `intent`, `minimal`).
 
 The checkout extension operates at `summary`-equivalent level by default — `conversation_summary` contains only `turn_count` and `topics`, both of which are safe to share at all privacy levels. Implementations MAY negotiate a different privacy level through out-of-band agreements.
 
