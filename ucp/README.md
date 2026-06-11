@@ -116,7 +116,7 @@ When using a content search capability for content discovery:
 
 ## Relationship to Standalone SDK
 
-The UCP integration is a standards-based binding. The standalone SDKs ([Python](https://github.com/openattribution-org/telemetry-py), [TypeScript](https://github.com/openattribution-org/telemetry-js)) support:
+The UCP integration is a standards-based binding. The standalone [TypeScript SDK](https://github.com/openattribution-org/telemetry-js) supports:
 
 - Non-UCP contexts (direct API, MCP tools)
 - Full conversation turn tracking with privacy levels

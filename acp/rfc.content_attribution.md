@@ -152,12 +152,12 @@ New optional fields MAY be added to `content_attribution` in future versions. Va
 
 ## Reference Implementation
 
-A Python SDK providing the `session_to_content_attribution()` bridge function is available at [https://github.com/openattribution-org/telemetry-py](https://github.com/openattribution-org/telemetry-py). The function converts a Content Telemetry session into a `content_attribution` dict suitable for inclusion in ACP checkout requests.
+A TypeScript SDK providing the `sessionToContentAttribution()` bridge function is available at [https://github.com/openattribution-org/telemetry-js](https://github.com/openattribution-org/telemetry-js). The function converts a Content Telemetry session into a `content_attribution` object suitable for inclusion in ACP checkout requests.
 
-```python
-from openattribution.telemetry import session_to_content_attribution
+```ts
+import { sessionToContentAttribution } from "@openattribution/telemetry";
 
-content_attribution = session_to_content_attribution(telemetry_session)
+const contentAttribution = sessionToContentAttribution(telemetrySession);
 ```
 
 The JSON Schema for the `content_attribution` object is published alongside this RFC.

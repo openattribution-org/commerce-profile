@@ -176,7 +176,7 @@ Sections 5.1 to 5.5 govern emitters; section 5.6 governs any party that performs
 
 #### 5.7.1 Conformance to the standard
 
-The consumer MUST meet the telemetry-consumer conformance rules of the Content Telemetry specification (standard, section 5.7): accept any session with a compatible schema version, tolerate unknown fields and events from any conformance level, accept both the session-document and standalone-event delivery formats and reconstruct sessions from standalone events, and strip privacy-violating fields rather than reject the document carrying them.
+The consumer MUST meet the telemetry-consumer conformance rules of the Content Telemetry specification (standard, section 5.7.4): accept any session with a compatible schema version, tolerate unknown fields and events from any conformance level, and accept the session-document, standalone-event, and event-batch delivery formats, reconstructing sessions from standalone events and event batches where needed. The standard recommends that a consumer strip privacy-violating fields rather than reject the document carrying them (standard, section 5.7.5); this profile makes that stripping a requirement.
 
 #### 5.7.2 ctx_token resolution to a click manifest
 
@@ -185,7 +185,7 @@ The consumer MUST support resolving a `ctx_token` to the click manifest of the o
 The manifest the consumer returns:
 
 - MUST be gated by the resolved session's `privacy_level` (standard, section 5.5). Fields and sources not available at that level MUST NOT appear in the manifest.
-- MUST be gated by two-sided consent. The consumer MUST return the manifest only when the agent that issued the token has opted in to sharing sessions via click tokens and the content owner whose URLs appear has opted in to being visible in click-token lookups. When either opt-in is absent, the consumer MUST NOT disclose the manifest for the affected source. The mechanism by which an agent and a content owner record these opt-ins is operator-defined; the consent gate itself is required.
+- MUST be gated by two-sided consent. The consumer MUST return the manifest only when the agent that issued the token has opted in to sharing sessions via click tokens; when the agent opt-in is absent, the consumer MUST NOT disclose the manifest. Within a returned manifest, a source MUST appear only when its content owner has opted in to being visible in click-token lookups; the consumer MUST withhold the events of any content owner whose opt-in is absent while returning the remainder of the manifest. The mechanism by which an agent and a content owner record these opt-ins is operator-defined; the consent gate itself is required.
 
 A consumer that returns a clicked URL but cannot return the rest of the citation chain does not satisfy this requirement and cannot support the multi-citation attribution that section 5.6 requires of the parties it serves.
 
