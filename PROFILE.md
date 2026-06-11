@@ -4,7 +4,7 @@ Commerce-facing requirements for the Content Telemetry standard.
 
 **Version:** 0.1
 **Status:** Draft
-**Last updated:** 2026-06-10
+**Last updated:** 2026-06-11
 **Constrains:** Content Telemetry specification, version 0.1
 
 ## Contents
@@ -138,6 +138,8 @@ Telemetry MUST be delivered at event granularity. Each fetched, grounded, cited,
 
 Aggregated reporting - summaries, counts, or rollups that collapse multiple events into a single record - does not satisfy this requirement. Aggregation, where useful, is performed by the receiving party on event-level input.
 
+Within the scope of the relationship it reports under, the implementer MUST report every qualifying event it observes. Selective reporting - emitting events for some sessions or content while omitting others in the same scope - does not satisfy this requirement. A party MAY accept sampling in a specific agreement, as with delivery cadence in section 5.3. Completeness is assessed as an operational requirement (section 6).
+
 ### 5.3 Real-time delivery
 
 The implementer MUST be capable of delivering telemetry in real time. Real-time means events are dispatched to the receiving endpoint as they occur, subject only to ordinary network and processing latency.
@@ -163,6 +165,8 @@ The point of this profile is that a click-out credits the whole citation chain, 
 An implementer performing attribution on a click-out MUST be capable of crediting every source in the click manifest (section 3.7): the `content_grounded`, `content_cited`, and `content_displayed` events of the session resolved from the `ctx_token`. It MUST NOT restrict attribution to the single `content_url` carried on the `link_click` event when the click manifest is available.
 
 The click manifest is the set of those events for the resolved session; the implementer weights them under its own counting model. This profile does not mandate the algorithm - last-touch, linear, position-based, or any other model in the standard's section 10 is permitted - only that every source in the manifest is eligible for credit. A destination that resolves a `ctx_token` and credits only the clicked URL, discarding the other grounded and cited sources, is not Compliant.
+
+Because this profile does not mandate weights, eligibility alone could be satisfied with a token share. The implementer MUST therefore disclose the weighting model it applies to click-manifest sources to the parties whose content is eligible for credit.
 
 The manifest reflects only what privacy and consent permit (section 5.7.2). Sources withheld by `privacy_level` gating or by a missing consent opt-in are not in the manifest and cannot be credited; this is a property of the data the implementer receives, not a relaxation of this requirement.
 
@@ -196,9 +200,9 @@ Aggregate or anonymised reporting across a catalogue - benchmarks that do not re
 An implementer is assessed as OpenAttribution Commerce Compliant when it meets every requirement in section 5 that applies to its role: an emitter against sections 5.1 to 5.5, a party that performs attribution on click-outs against section 5.6, a telemetry consumer against section 5.7. Assessment has two parts:
 
 1. **Technical conformance** - verified against the standard's reference test suite, for the conformance level an emitter advertises (5.1) or against the standard's telemetry-consumer rules for a consumer (5.7.1), plus the commerce-specific document checks in the [`accreditation/`](./accreditation/) suite: a cross-boundary `link_click` engagement carries a `ctx_token` and not a raw `session_id` (5.5), and a conforming commerce flow records the grounded, cited, and displayed sources that make a click manifest possible (5.6). An objective, repeatable check.
-2. **Operational requirements** - event-level granularity and real-time delivery (5.2, 5.3), `ctx_token` resolution to a privacy- and consent-gated click manifest (5.7.2), multi-citation crediting of the manifest (5.6), and content-owner resolution and isolation (5.7.3), verified by inspection of the implementer's pipeline and by attestation.
+2. **Operational requirements** - event-level granularity, completeness, and real-time delivery (5.2, 5.3), `ctx_token` resolution to a privacy- and consent-gated click manifest (5.7.2), multi-citation crediting of the manifest and disclosure of the weighting model (5.6), and content-owner resolution and isolation (5.7.3), verified by inspection of the implementer's pipeline and by attestation.
 
-The [`accreditation/`](./accreditation/) directory holds example fixtures: telemetry documents that do and do not satisfy the document-checkable component of this profile. Operational requirements - cadence, the consent gate, the weighting model, and content-owner isolation - cannot be fixture-tested and are assessed separately.
+The [`accreditation/`](./accreditation/) directory holds example fixtures: telemetry documents that do and do not satisfy the document-checkable component of this profile. Operational requirements - cadence, completeness, the consent gate, the weighting model and its disclosure, and content-owner isolation - cannot be fixture-tested and are assessed separately.
 
 Assessment is self-attested in this draft version. An independent audit programme is anticipated; the profile will be revised to require opt-in to it once available.
 
