@@ -11,16 +11,16 @@ On top of that base, this profile adds commerce-specific requirements that ARE
 checkable from a telemetry document:
 
   - ctx_token propagation (PROFILE.md section 5.5): a content_engaged event with
-    engagement_type 'link_click' that crosses to a landing page MUST carry a
-    ctx_token and MUST NOT carry a raw session_id. We detect the cross-boundary
-    case as a standalone link_click engagement (document_type 'event'), which is
-    how a destination or network reports a click-out, and a link_click engagement
-    inside a session that carries an explicit ctx_token.
+    engagement_type 'link_click' or 'agent_navigate' that crosses to a landing
+    page MUST carry a ctx_token and MUST NOT carry a raw session_id. We detect
+    the cross-boundary case as a standalone click-out engagement (document_type
+    'event'), which is how a destination or network reports a click-out, and a
+    click-out engagement inside a session that carries an explicit ctx_token.
 
   - multi-citation support (PROFILE.md section 5.6): a conforming commerce flow
     records the sources behind the click - content_grounded / content_cited /
     content_displayed events - so a click manifest can be built. A flow that
-    reports a link_click with no citation chain behind it cannot support
+    reports a click-out with no citation chain behind it cannot support
     multi-citation attribution.
 
 The remaining requirements - real-time cadence, the two-sided consent gate on
@@ -91,13 +91,17 @@ def check_base_document(doc):
     return fails
 
 
-def link_click_events(doc):
-    """Return (index, event) for every content_engaged link_click event."""
+CLICK_OUT_ENGAGEMENTS = {"link_click", "agent_navigate"}
+
+
+def click_out_events(doc):
+    """Return (index, event) for every content_engaged click-out event
+    (engagement_type link_click or agent_navigate, PROFILE.md section 3.5)."""
     out = []
     for i, event in enumerate(events(doc)):
         if event.get("type") == "content_engaged":
             data = event.get("data") or {}
-            if data.get("engagement_type") == "link_click":
+            if data.get("engagement_type") in CLICK_OUT_ENGAGEMENTS:
                 out.append((i, event))
     return out
 
@@ -105,19 +109,21 @@ def link_click_events(doc):
 def check_ctx_token(doc):
     """ctx_token propagation - PROFILE.md section 5.5.
 
-    A cross-boundary link_click is one reported as a standalone event (how a
-    destination or network reports a click-out). It MUST carry a ctx_token in
-    place of session_id, and MUST NOT carry a raw session_id. A link_click that
-    appears inside a full session document is the originating agent's own report
-    and is not a cross-boundary event; we do not require ctx_token there, but if
-    the fixture marks the flow as a commerce click-out we still expect the
-    propagation path to be exercised by a ctx_token somewhere in the document.
+    A cross-boundary click-out (link_click or agent_navigate) is one reported as
+    a standalone event (how a destination or network reports a click-out). It
+    MUST carry a ctx_token in place of session_id, and MUST NOT carry a raw
+    session_id. A click-out that appears inside a full session document is the
+    originating agent's own report and is not a cross-boundary event; we do not
+    require ctx_token there, but if the fixture marks the flow as a commerce
+    click-out we still expect the propagation path to be exercised by a
+    ctx_token somewhere in the document.
     """
     fails = []
-    clicks = link_click_events(doc)
+    clicks = click_out_events(doc)
     if is_standalone(doc):
         for i, event in clicks:
-            loc = f"event[{i}] content_engaged link_click"
+            etype = (event.get("data") or {}).get("engagement_type")
+            loc = f"event[{i}] content_engaged {etype}"
             has_ctx = bool(doc.get("ctx_token"))
             has_session = bool(doc.get("session_id"))
             if not has_ctx:
@@ -136,16 +142,17 @@ def check_ctx_token(doc):
 def check_multi_citation(doc):
     """Multi-citation support - PROFILE.md section 5.6.
 
-    A document that reports a link_click click-out and claims to be a commerce
-    flow MUST also carry the citation chain (grounded / cited / displayed) that a
-    click manifest is built from. A standalone link_click event reported by a
-    destination need not itself contain the chain - it references it by ctx_token
-    - so this check applies to session documents that contain a link_click.
+    A document that reports a click-out and claims to be a commerce flow MUST
+    also carry the citation chain (grounded / cited / displayed) that a click
+    manifest is built from. A standalone click-out event reported by a
+    destination need not itself contain the chain - it references it by
+    ctx_token - so this check applies to session documents that contain a
+    click-out.
     """
     fails = []
     if is_standalone(doc):
         return fails
-    clicks = link_click_events(doc)
+    clicks = click_out_events(doc)
     if not clicks:
         return fails
     chain_present = any(
@@ -153,7 +160,7 @@ def check_multi_citation(doc):
     )
     if not chain_present:
         fails.append(
-            "session reports a link_click but carries no content_grounded, "
+            "session reports a click-out but carries no content_grounded, "
             "content_cited, or content_displayed events; no click manifest can "
             "be built (section 5.6)"
         )

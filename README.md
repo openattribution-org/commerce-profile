@@ -33,8 +33,8 @@ The ACP and UCP bindings moved here from the retired `openattribution-org/teleme
 | Conformance to the standard | Valid Content Telemetry documents; advertised Retrieval, Grounding, or Citation levels must be satisfied |
 | Event-level delivery | Discrete events per fetch / grounding / citation / display / engagement - no aggregation, no sampling |
 | Real-time delivery | Events dispatched as they occur; alternative cadence by negotiation |
-| Click-out reporting | Click-outs reported as `content_engaged` / `link_click` events |
-| ctx_token propagation | Cross-boundary `link_click` carries a `ctx_token`, never the raw `session_id` |
+| Click-out reporting | Click-outs reported as `content_engaged` events: `link_click` for a clicked link, `agent_navigate` where the agent opened the destination at the user's direction |
+| ctx_token propagation | Cross-boundary click-outs carry a `ctx_token`, never the raw `session_id` |
 | Multi-citation attribution | Credit every source in the click manifest, not only the clicked URL; weighting model disclosed to credited parties |
 
 Telemetry consumers meet a parallel set (PROFILE.md section 5.7): standard consumer conformance, `ctx_token` resolution to a privacy- and consent-gated click manifest, and content-owner resolution and isolation.

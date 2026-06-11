@@ -1,0 +1,13 @@
+{
+  "_test_description": "Conforming destination-side report of an agent-mediated click-out: the user directed the agent to open the retailer's page, and the destination reports it as a standalone content_engaged agent_navigate carrying the ctx_token in place of session_id. The two click-out forms meet the same requirements (5.4, 5.5).",
+  "_test_expected_tier": "compliant",
+  "document_type": "event",
+  "schema_version": "0.1",
+  "ctx_token": "ctx_f6e5d4c3b2a1",
+  "event": {
+    "type": "content_engaged",
+    "timestamp": "2026-05-29T10:04:10Z",
+    "content_url": "https://retailer.example.com/headphones/bose-qc45",
+    "data": { "engagement_type": "agent_navigate" }
+  }
+}
