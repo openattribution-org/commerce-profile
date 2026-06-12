@@ -1,10 +1,10 @@
-# RFC: Content Citation Attribution Extension
+# RFC: Content citation attribution extension
 
 ## Abstract
 
 This SEP defines a `content_attribution` extension for ACP checkout sessions. When an AI shopping agent retrieves and cites content during a purchasing conversation, the extension provides a standardised structure for recording which content URLs were accessed and referenced. This enables merchants and their affiliate networks to attribute purchases to the content that influenced the buying decision.
 
-The mechanism is URL-based: agents record the URIs of content they fetched and cited, and merchants forward these to their affiliate networks for content owner resolution. This complements the existing `affiliate_attribution` RFC, which handles network-level attribution through pre-wired content owner mappings. Where `affiliate_attribution` requires prior relationship setup, `content_attribution` bootstraps attribution from raw URLs -- no pre-configuration needed. The two layers can coexist in a single checkout session.
+The mechanism is URL-based: agents record the URIs of content they fetched and cited, and merchants forward these to their affiliate networks for content owner resolution. This complements the existing `affiliate_attribution` RFC, which handles network-level attribution through pre-wired content owner mappings. Where `affiliate_attribution` requires prior relationship setup, `content_attribution` bootstraps attribution from raw URLs - no pre-configuration needed. The two layers can coexist in a single checkout session.
 
 The extension follows a strict write-only, privacy-preserving model. Attribution data flows from agent to merchant and is never echoed in read responses. No personally identifiable information is collected; `content_scope` values are opaque identifiers. This design allows attribution to function without exposing the agent's reasoning or the buyer's browsing behaviour.
 
@@ -12,7 +12,7 @@ The extension follows a strict write-only, privacy-preserving model. Attribution
 
 AI shopping agents routinely read reviews, buying guides, and product comparisons to form purchase recommendations. Currently there is no standardised mechanism to track which content influenced a given purchase.
 
-The existing `affiliate_attribution` RFC addresses network-level attribution by conveying `provider`, `publisher_id`, and cryptographic `token` fields from agent to merchant. This works well when the affiliate relationship is already established -- the agent knows which network, which content owner, and has a pre-issued token to prove it.
+The existing `affiliate_attribution` RFC addresses network-level attribution by conveying `provider`, `publisher_id`, and cryptographic `token` fields from agent to merchant. This works well when the affiliate relationship is already established - the agent knows which network, which content owner, and has a pre-issued token to prove it.
 
 In practice, agentic commerce breaks this assumption. An agent performing RAG-based product research:
 
@@ -20,19 +20,19 @@ In practice, agentic commerce breaks this assumption. An agent performing RAG-ba
 2. Paraphrases the review in its recommendation to the user
 3. Proceeds to checkout
 
-At no point does the agent know that Wirecutter is `pub_123` on `impact.com`, or possess a network-issued attribution token. The agent has **URLs** -- that is the primitive it naturally works with. The `affiliate_attribution` schema requires **network identifiers** -- primitives the agent does not have.
+At no point does the agent know that Wirecutter is `pub_123` on `impact.com`, or possess a network-issued attribution token. The agent has **URLs** - that is the primitive it naturally works with. The `affiliate_attribution` schema requires **network identifiers** - primitives the agent does not have.
 
 `content_attribution` solves this bootstrapping problem by starting from what the agent actually knows:
 
-1. **Agent emits URLs** -- the agent records which content it retrieved and cited during the shopping conversation.
-2. **Merchant's affiliate network resolves URLs to content owners** -- the network matches content URLs against its content owner registry.
-3. **Standard affiliate crediting kicks in** -- once the content owner is identified, existing affiliate commission structures apply.
+1. **Agent emits URLs** - the agent records which content it retrieved and cited during the shopping conversation.
+2. **Merchant's affiliate network resolves URLs to content owners** - the network matches content URLs against its content owner registry.
+3. **Standard affiliate crediting kicks in** - once the content owner is identified, existing affiliate commission structures apply.
 
-These are complementary layers, not competing ones. A single checkout can include both `affiliate_attribution` (network-level, pre-wired) and `content_attribution` (content-level, URL-based). The former covers known affiliate relationships; the latter bootstraps attribution for content the agent discovered organically. Over time, as affiliate networks build agent-facing APIs that issue tokens in real time, `affiliate_attribution` becomes more viable -- but `content_attribution` provides the immediate, zero-configuration path that works today.
+These are complementary layers, not competing ones. A single checkout can include both `affiliate_attribution` (network-level, pre-wired) and `content_attribution` (content-level, URL-based). The former covers known affiliate relationships; the latter bootstraps attribution for content the agent discovered organically. Over time, as affiliate networks build agent-facing APIs that issue tokens in real time, `affiliate_attribution` becomes more viable - but `content_attribution` provides the immediate, zero-configuration path that works today.
 
 ## Specification
 
-### Extension Declaration
+### Extension declaration
 
 ```json
 {
@@ -48,11 +48,11 @@ These are complementary layers, not competing ones. A single checkout can includ
 
 The extension name follows ACP convention (short names, matching `affiliate_attribution`). The schema and spec URLs use the ACP-controlled `agentic-commerce-protocol.com` namespace. This schema is the ACP binding of [Content Telemetry v0.1](https://contenttelemetry.org); the canonical specification is protocol-independent, stewarded by the SPUR Coalition; this binding is maintained by OpenAttribution.
 
-### The `content_attribution` Object
+### The `content_attribution` object
 
 The `content_attribution` object is included in `CheckoutSessionCreateRequest` and `CheckoutSessionCompleteRequest` payloads.
 
-#### Top-Level Fields
+#### Top-level fields
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -61,14 +61,14 @@ The `content_attribution` object is included in `CheckoutSessionCreateRequest` a
 | `content_cited` | array | No | Content explicitly referenced in agent responses |
 | `conversation_summary` | object | No | Lightweight conversation context (agent-reported hints) |
 
-#### `content_retrieved` Array Items
+#### `content_retrieved` array items
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `content_url` | string (URI) | Yes | URI of content retrieved |
 | `timestamp` | string (ISO 8601) | Yes | UTC timestamp of retrieval |
 
-#### `content_cited` Array Items
+#### `content_cited` array items
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -79,7 +79,7 @@ The `content_attribution` object is included in `CheckoutSessionCreateRequest` a
 | `position` | string | No | Prominence in the response: `primary`, `supporting`, `mentioned`, or `unclassified` |
 | `content_hash` | string | No | SHA-256 hash of the content the agent processed from this URL (format: `sha256:{hex}`) |
 
-#### `conversation_summary` Object
+#### `conversation_summary` object
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -88,11 +88,11 @@ The `content_attribution` object is included in `CheckoutSessionCreateRequest` a
 
 Both fields are agent-reported hints. `turn_count` provides a signal of conversation depth that is not derivable from the citation arrays. `topics` provides lightweight category tags that help merchants route attribution internally without needing to crawl the cited URLs.
 
-### Write-Only Semantics
+### Write-only semantics
 
 The `content_attribution` object MUST NOT be echoed in read responses (e.g. `GET /checkout-sessions/{id}`). This matches the pattern established by `affiliate_attribution` and prevents sensitive attribution data from leaking through session queries.
 
-### Multi-Touch Attribution
+### Multi-touch attribution
 
 The extension attaches to both `CheckoutSessionCreateRequest` (first-touch) and `CheckoutSessionCompleteRequest` (last-touch). When provided at both stages:
 
@@ -105,7 +105,7 @@ If `content_attribution` is provided only at one stage, merchants store it for t
 
 Content attribution follows the checkout session's idempotency semantics. If a request is retried with the same `Idempotency-Key`, identical `content_attribution` data is accepted idempotently; mismatched data results in `409 Conflict`.
 
-### Error Handling
+### Error handling
 
 Structural validation errors in `content_attribution` SHOULD return `400 Bad Request`:
 
@@ -116,7 +116,7 @@ Structural validation errors in `content_attribution` SHOULD return `400 Bad Req
 
 Attribution-specific errors MUST NOT prevent checkout completion. If `content_attribution` fails validation, merchants SHOULD log the error and proceed with the checkout.
 
-### Conformance Requirements
+### Conformance requirements
 
 **MUST:**
 
@@ -134,23 +134,23 @@ Attribution-specific errors MUST NOT prevent checkout completion. If `content_at
 
 ## Rationale
 
-**URLs as the primitive.** AI agents naturally have URLs -- they fetch content by URL and can trivially record what they accessed. Unlike affiliate tokens or content owner IDs, URLs require no pre-configuration. The merchant's affiliate network can resolve URLs to content owners after the fact, which is the key insight that makes this extension work without prior relationship setup.
+**URLs as the primitive.** AI agents naturally have URLs - they fetch content by URL and can trivially record what they accessed. Unlike affiliate tokens or content owner IDs, URLs require no pre-configuration. The merchant's affiliate network can resolve URLs to content owners after the fact, which is the key insight that makes this extension work without prior relationship setup.
 
 **Write-only semantics.** Attribution data flows in one direction: from agent to merchant. Exposing it in read responses would create a privacy risk (leaking the agent's content sources) and a competitive risk (revealing which content influences purchases). The write-only pattern mirrors `affiliate_attribution` for consistency.
 
 **Field alignment with `affiliate_attribution`.** The extension intentionally mirrors the structural patterns of `affiliate_attribution` so that merchants can process both through similar pipelines. The additional fields (`citation_type`, `excerpt_tokens`, `position`, `content_hash`) provide quality signals specific to content citation that have no analogue in network-level affiliate tracking.
 
-**Minimal conversation context.** `conversation_summary` is limited to `turn_count` and `topics` — two signals that are genuinely not derivable from the citation arrays. Conversation depth and topic tags help merchants route attribution internally without requiring them to crawl cited URLs. Subjective classification fields were excluded to avoid inconsistency across agent implementations.
+**Minimal conversation context.** `conversation_summary` is limited to `turn_count` and `topics` - two signals that are genuinely not derivable from the citation arrays. Conversation depth and topic tags help merchants route attribution internally without requiring them to crawl cited URLs. Subjective classification fields were excluded to avoid inconsistency across agent implementations.
 
-## Backward Compatibility
+## Backward compatibility
 
 This extension is purely additive. Existing checkout sessions without `content_attribution` continue to work unchanged. Merchants that do not declare support for `content_attribution` will simply not receive the extension data.
 
-## Forward Compatibility
+## Forward compatibility
 
-New optional fields MAY be added to `content_attribution` in future versions. Validators SHOULD be lenient with unknown fields -- implementations MUST NOT reject payloads containing unrecognised fields.
+New optional fields MAY be added to `content_attribution` in future versions. Validators SHOULD be lenient with unknown fields - implementations MUST NOT reject payloads containing unrecognised fields.
 
-## Reference Implementation
+## Reference implementation
 
 A TypeScript SDK providing the `sessionToContentAttribution()` bridge function is available at [https://github.com/openattribution-org/telemetry-js](https://github.com/openattribution-org/telemetry-js). The function converts a Content Telemetry session into a `content_attribution` object suitable for inclusion in ACP checkout requests.
 
@@ -162,10 +162,10 @@ const contentAttribution = sessionToContentAttribution(telemetrySession);
 
 The JSON Schema for the `content_attribution` object is published alongside this RFC.
 
-## Security Considerations
+## Security considerations
 
 - **Citation quality signals are agent-reported, not trusted assertions.** The `citation_type`, `position`, and `excerpt_tokens` fields reflect the agent's self-report of how it used content. Merchants and attribution systems should treat these as hints, not verified facts.
-- **`content_hash` provides an integrity audit trail.** The hash is a SHA-256 of the content the agent processed from the cited URL. It ties the citation to a specific version of the content the agent saw, which is useful for dispute resolution when attribution involves commission payments. The spec does not prescribe the extraction method — agents hash whatever content they fed into their context. Agents SHOULD use a consistent hashing method across citations within a session.
+- **`content_hash` provides an integrity audit trail.** The hash is a SHA-256 of the content the agent processed from the cited URL. It ties the citation to a specific version of the content the agent saw, which is useful for dispute resolution when attribution involves commission payments. The spec does not prescribe the extraction method - agents hash whatever content they fed into their context. Agents SHOULD use a consistent hashing method across citations within a session.
 - **`content_scope` MUST NOT contain PII.** Implementations must use opaque, non-identifying values for this field.
 - **Rate limiting.** Merchants should apply rate limiting to prevent abuse of the attribution channel (e.g. an agent flooding `content_retrieved` with spurious URLs to game attribution).
 - **Write-only semantics prevent data leakage.** By never echoing `content_attribution` in read responses, the extension prevents third parties from discovering which content influenced a purchase.

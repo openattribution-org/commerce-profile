@@ -1,15 +1,15 @@
 # Content Telemetry Extension for UCP
 
-**Extension Name:** `org.openattribution.telemetry`
+**Extension name:** `org.openattribution.telemetry`
 **Version:** `2026-02-17`
 **Extends:** `dev.ucp.shopping.checkout`
 **Status:** Draft
 
 ## Overview
 
-This extension augments UCP checkout sessions with content attribution telemetry. When an AI agent helps a user make a purchase, this extension tracks which content influenced the decision — enabling fair compensation for content creators whose work drove the sale.
+This extension augments UCP checkout sessions with content attribution telemetry. When an AI agent helps a user make a purchase, the extension records which content the agent retrieved and cited on the way to the sale, so attribution systems can credit the sources that informed the recommendation.
 
-## Why This Exists
+## Why this exists
 
 AI commerce is opaque. When a shopping agent recommends a product, the recommendation is informed by reviews, guides, comparisons, and other content. Currently:
 
@@ -19,7 +19,7 @@ AI commerce is opaque. When a shopping agent recommends a product, the recommend
 
 This extension provides the telemetry layer. Attribution algorithms, payment structures, and business agreements remain outside scope.
 
-## Capability Declaration
+## Capability declaration
 
 Merchants and agents declare support in their UCP profile:
 
@@ -42,6 +42,8 @@ Merchants and agents declare support in their UCP profile:
   }
 }
 ```
+
+The `spec` and `schema` URLs identify the extension under the `openattribution.org` namespace and are reserved; they do not resolve yet. The authoritative copies are this document and [`extension-schema.json`](./extension-schema.json) in this repository.
 
 ## Schema
 
@@ -89,7 +91,7 @@ The extension adds an `attribution` object to checkout sessions:
 
 Opaque identifier for the content collection used. Meaning is implementer-defined:
 
-| Implementation | Example Value |
+| Implementation | Example value |
 |----------------|---------------|
 | Content mix platform | `"electronics-reviews-mix"` |
 | API key scoped | `"apikey_abc123"` |
@@ -103,7 +105,7 @@ Opaque identifier for the content collection used. Meaning is implementer-define
 
 ### `attribution.content_retrieved`
 
-Content fetched during the session. Captures correlation (content was available) without claiming causation (content was used). Required — if you're sending `attribution`, you must have retrieved something.
+Content fetched during the session. Captures correlation (content was available) without claiming causation (content was used). Required - if you're sending `attribution`, you must have retrieved something.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -125,7 +127,7 @@ Content explicitly referenced in agent responses. Includes quality signals for m
 | `position` | enum | No | Prominence in response |
 | `content_hash` | string | No | SHA-256 integrity audit trail |
 
-#### Citation Types
+#### Citation types
 
 | Type | Description |
 |------|-------------|
@@ -146,9 +148,9 @@ These are agent-reported metadata describing how content appeared in a response.
 | `mentioned` | Referenced but not relied upon |
 | `unclassified` | The agent did not determine prominence |
 
-#### Content Hash
+#### Content hash
 
-SHA-256 hash of the content the agent processed from the cited URL, for integrity audit trail in dispute resolution. The spec does not prescribe the extraction method — agents hash whatever content they fed into their context. Agents SHOULD use a consistent hashing method across citations within a session.
+SHA-256 hash of the content the agent processed from the cited URL, for integrity audit trail in dispute resolution. The spec does not prescribe the extraction method - agents hash whatever content they fed into their context. Agents SHOULD use a consistent hashing method across citations within a session.
 
 ### `attribution.conversation_summary`
 
@@ -176,19 +178,18 @@ When only one party supports the extension:
 
 Graceful degradation: the checkout proceeds normally regardless. Attribution is additive, not blocking.
 
-## Privacy Considerations
+## Privacy considerations
 
-### Data Minimisation
+### Data minimisation
 
 - `conversation_summary` provides attribution signals without raw conversation text
-- `content_scope` is opaque — doesn't reveal content collection contents
-- `external_id` in user context should be hashed, not PII
+- `content_scope` is opaque - doesn't reveal content collection contents
 
-### Privacy Levels
+### Privacy levels
 
 For implementations that need more granular control, the Content Telemetry standard defines privacy levels (`full`, `summary`, `intent`, `minimal`).
 
-The checkout extension operates at `summary`-equivalent level by default — `conversation_summary` contains only `turn_count` and `topics`, both of which are safe to share at all privacy levels. Implementations MAY negotiate a different privacy level through out-of-band agreements.
+The checkout extension operates at `summary`-equivalent level by default - `conversation_summary` contains only `turn_count` and `topics`, both of which are safe to share at all privacy levels. Implementations MAY negotiate a different privacy level through out-of-band agreements.
 
 ## Relationship to the Content Telemetry spec
 
@@ -200,7 +201,7 @@ This extension is a UCP binding of [Content Telemetry v0.1](https://contenttelem
 
 This extension takes the commerce-relevant subset and packages it for UCP's `allOf` composition model.
 
-## Example: Full Checkout with Attribution
+## Example: full checkout with attribution
 
 ```json
 {
@@ -270,27 +271,27 @@ This extension takes the commerce-relevant subset and packages it for UCP's `all
 }
 ```
 
-## Implementation Notes
+## Implementation notes
 
-### For Agent Developers
+### For agent developers
 
 1. Check merchant profile for `org.openattribution.telemetry` support
 2. If supported, populate `attribution` during checkout session
 3. Track content retrieval and citation during conversation
-4. For multi-conversation journeys, accumulate all relevant content into the final checkout's `content_retrieved` array
+4. For purchases spanning multiple conversations, accumulate all relevant content into the final checkout's `content_retrieved` array
 
-### For Merchants
+### For merchants
 
 1. Declare capability in `/.well-known/ucp` profile
 2. Accept and store `attribution` from checkout requests
 3. Include `attribution` in checkout responses
 4. Forward to attribution system on `checkout_completed`
 
-### For Attribution Systems
+### For attribution systems
 
 1. Consume `attribution` data from completed checkouts
 2. Use `content_cited` with quality signals for weighted attribution
-3. Use `content_retrieved` timestamps for temporal attribution across multi-day journeys
+3. Use `content_retrieved` timestamps for temporal attribution when research spans days
 4. Aggregate by `content_scope` for mix-level analytics
 
 ## Changelog

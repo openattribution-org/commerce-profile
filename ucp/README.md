@@ -1,12 +1,12 @@
-# Content Telemetry — UCP integration (OpenAttribution binding)
+# Content Telemetry - UCP integration (OpenAttribution binding)
 
 This directory contains [Universal Commerce Protocol](https://ucp.dev) integration for Content Telemetry.
 
-## Two Approaches
+## Two approaches
 
 Content Telemetry integrates with UCP in two complementary ways:
 
-### 1. Checkout Extension (embedded attribution)
+### 1. Checkout extension (embedded attribution)
 
 Embeds attribution data directly into UCP checkout sessions using `allOf` composition:
 
@@ -25,7 +25,7 @@ Embeds attribution data directly into UCP checkout sessions using `allOf` compos
 
 **Files:** `EXTENSION.md`, `extension-schema.json`
 
-### 2. Standalone Capability (session lifecycle)
+### 2. Standalone capability (session lifecycle)
 
 Independent REST/MCP endpoints for full session lifecycle management:
 
@@ -54,9 +54,9 @@ Both approaches share the same underlying schema (Content Telemetry v0.1) and ar
 | `org.openattribution.telemetry.yaml` | Standalone capability specification |
 | `schemas/telemetry.json` | JSON Schema for standalone capability |
 
-## Quick Start
+## Quick start
 
-### Option A: Checkout Extension
+### Option A: checkout extension
 
 1. Declare capability in your UCP profile:
 
@@ -70,7 +70,7 @@ Both approaches share the same underlying schema (Content Telemetry v0.1) and ar
       },
       {
         "name": "org.openattribution.telemetry",
-        "version": "2026-02-11",
+        "version": "2026-02-17",
         "spec": "https://openattribution.org/telemetry/ucp/extension",
         "schema": "https://openattribution.org/telemetry/ucp/schemas/extension.json",
         "extends": "dev.ucp.shopping.checkout"
@@ -82,7 +82,7 @@ Both approaches share the same underlying schema (Content Telemetry v0.1) and ar
 
 2. Add `attribution` object to checkout sessions (see `EXTENSION.md`)
 
-### Option B: Standalone Capability
+### Option B: standalone capability
 
 1. Declare capability:
 
@@ -103,9 +103,9 @@ Both approaches share the same underlying schema (Content Telemetry v0.1) and ar
 
 2. Use session lifecycle endpoints (see `org.openattribution.telemetry.yaml`)
 
-## Integration with Other Capabilities
+## Integration with other capabilities
 
-### With Content Search Capabilities
+### With content search capabilities
 
 When using a content search capability for content discovery:
 
@@ -114,7 +114,7 @@ When using a content search capability for content discovery:
 3. When content is cited in responses, record `content_cited` events
 4. At conversation end, record the outcome (with optional `checkout_id`)
 
-## Relationship to Standalone SDK
+## Relationship to the standalone SDK
 
 The UCP integration is a standards-based binding. The standalone [TypeScript SDK](https://github.com/openattribution-org/telemetry-js) supports:
 
@@ -125,7 +125,7 @@ The UCP integration is a standards-based binding. The standalone [TypeScript SDK
 
 Use UCP integration for interoperability with other UCP-compatible agents and merchants. Use the SDK directly when UCP isn't in the picture.
 
-## Namespace Strategy
+## Namespace strategy
 
 Content Telemetry uses the `org.openattribution.*` vendor namespace, following UCP's governance model for vendor extensions. Per [UCP CONTRIBUTING.md](https://github.com/Universal-Commerce-Protocol/ucp/blob/main/CONTRIBUTING.md): vendors should first create capabilities and extensions in vendor-specific namespace patterns for new use cases.
 
@@ -138,5 +138,7 @@ The vendor extension approach allows us to:
 
 | Spec | Version | Status |
 |------|---------|--------|
-| Checkout Extension | 2026-02-11 | Draft |
-| Standalone Capability | 2026-02-11 | Draft |
+| Checkout extension | 2026-02-17 | Draft |
+| Standalone capability | 2026-02-11 | Draft |
+
+The `spec` and `schema` URLs in capability declarations are reserved under the `openattribution.org` namespace and do not resolve yet; the authoritative copies live in this directory.

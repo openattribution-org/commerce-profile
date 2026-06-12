@@ -8,6 +8,8 @@ This repository contains the **profile** - the requirements for the Compliant ti
 |------|---------|
 | [PROFILE.md](./PROFILE.md) | The normative profile |
 | [accreditation/](./accreditation/) | Example fixtures and the assessment runner |
+| [acp/](./acp/) | ACP binding: the `content_attribution` checkout extension (Apache 2.0) |
+| [ucp/](./ucp/) | UCP binding: the `org.openattribution.telemetry` vendor extension (Apache 2.0) |
 
 ## Proposing changes
 

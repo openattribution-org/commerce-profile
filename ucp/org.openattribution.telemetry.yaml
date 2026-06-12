@@ -1,11 +1,13 @@
 # UCP Extension Specification: Content Telemetry
 #
-# Tracks which content influenced AI shopping conversation outcomes.
-# Enables fair creator compensation and cross-platform attribution.
+# Records which content informed AI shopping conversation outcomes, giving
+# attribution systems a standard signal for crediting content sources.
 #
 # Specification: https://openattribution.org/telemetry/ucp/extension
 # Schema: https://openattribution.org/telemetry/ucp/schemas/telemetry.json
-# Reference Implementation: https://github.com/openattribution-org/telemetry-py
+# (Both URLs are reserved and do not resolve yet; the authoritative copies
+# live in this repository.)
+# Reference implementation: https://github.com/openattribution-org/telemetry-js
 
 capability:
   name: org.openattribution.telemetry
@@ -31,7 +33,7 @@ description: |
   - Agent-to-agent session chaining
 
   This extension complements UCP checkout flows by answering: "Which content
-  influenced this purchase?" — enabling fair creator compensation.
+  informed this purchase?"
 
 # ------------------------------------------------------------------------------
 # Transport Bindings
@@ -275,7 +277,7 @@ schemas:
           type: string
           format: uuid
         description: |
-          Previous session IDs in this user journey. Enables multi-session
+          Previous session IDs in the same research thread. Enables multi-session
           attribution (research → comparison → purchase over multiple days).
 
       user_context:

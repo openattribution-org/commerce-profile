@@ -1,14 +1,14 @@
 # OpenAttribution Content Attribution for ACP
 
-**Extension Name:** `content_attribution`
+**Extension name:** `content_attribution`
 **Version:** `2026-02-15`
 **Status:** Draft
 
-## What This Is
+## What this is
 
 Content attribution tracks which content URLs an AI shopping agent retrieved and cited during a purchase conversation. This enables merchants and affiliate networks to attribute purchases to the content that influenced the buying decision.
 
-## How It Complements `affiliate_attribution`
+## How it complements `affiliate_attribution`
 
 ACP's existing `affiliate_attribution` handles network-level attribution with pre-wired content owner mappings. Content attribution provides the complementary content-level layer:
 
@@ -27,11 +27,11 @@ Together they solve the bootstrapping problem for agentic commerce attribution.
 6. Network identifies which content owners created the cited content
 7. Standard affiliate commission crediting applies to the identified content owners
 
-## Directory Contents
+## Directory contents
 
 | File | Description |
 |------|-------------|
-| `rfc.content_attribution.md` | RFC (SEP format) -- full specification |
+| `rfc.content_attribution.md` | RFC (SEP format) - full specification |
 | `schemas/content_attribution.json` | JSON Schema (Draft 2020-12) for the extension |
 | `examples/create_checkout_with_attribution.json` | Checkout request with content attribution |
 | `examples/combined_affiliate_and_content.json` | Checkout with both affiliate and content attribution |
